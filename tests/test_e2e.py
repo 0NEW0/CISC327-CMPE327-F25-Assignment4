@@ -38,12 +38,17 @@ def test_add_book_flow():
 
 
 def test_catalog_page_loads():
-    """Basic catalog check that supports step ii."""
+    """Include assertions verifying that expected UI elements/text appear. """
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
+
         page.goto(f"{BASE_URL}/catalog")
         assert page.url.endswith("/catalog")
+
         body_text = page.text_content("body")
-        assert body_text is not None and body_text.strip() != ""
+        assert "Book Catalog" in body_text
+        assert "The Great Gatsby" in body_text
+
         browser.close()
+
